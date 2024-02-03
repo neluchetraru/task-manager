@@ -3,6 +3,34 @@ const router = new express.Router()
 const Task = require('../models/task')
 const auth = require('../middleware/auth')
 
+
+
+/**
+ * @typedef Task
+ * @property {string} description - The description of the task
+ * @property {boolean} completed - The completion status of the task
+ */
+
+
+
+/**
+ * @typedef TaskWithOwner
+ * @property {string} description - The description of the task
+ * @property {boolean} completed - The completion status of the task
+ * @property {string} owner - The id of the owner of the task
+ */
+
+/**
+ * This function comment is parsed by doctrine
+ * @route POST /tasks
+ * @group Tasks - Operations about tasks
+ * @param {Task.model} task.body.required - the new task
+ * @returns {TaskWithOwner.model} 201 - An object of task info
+ * @returns {Error} 400 - Bad request
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
+
 router.post('/tasks', auth, async (req, res) => {
     const task = new Task({
         ...req.body,
@@ -17,6 +45,18 @@ router.post('/tasks', auth, async (req, res) => {
 })
 
 
+/**
+ * This function comment is parsed by doctrine
+ * @route GET /tasks
+ * @group Tasks - Operations about tasks
+ * @param {string} completed.query - Filter tasks by completion status
+ * @param {string} limit.query - Limit number of tasks returned
+ * @param {string} skip.query - Skip number of tasks for pagination
+ * @param {string} sortBy.query - Sort tasks by field:order
+ * @returns {Array.<Task>} 200 - An array of user info
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
 // GET /tasks?completed=true
 // GET /tasks?limit=10&skip=10
 // GET /tasks?sortBy=createdAt:asc
@@ -48,6 +88,16 @@ router.get('/tasks', auth, async (req, res) => {
     }
 })
 
+/**
+ * This function comment is parsed by doctrine
+ * @route GET /tasks/{id}
+ * @group Tasks - Operations about tasks
+ * @param {string} id.path.required - id of the Task to get
+ * @returns {Task.model} 200 - An object of task info
+ * @returns {Error} 404 - Task not found
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
 router.get('/tasks/:id', auth, async (req, res) => {
     const _id = req.params.id
     try {
@@ -64,6 +114,18 @@ router.get('/tasks/:id', auth, async (req, res) => {
     }
 })
 
+
+/**
+ * This function comment is parsed by doctrine
+ * @route PATCH /tasks/{id}
+ * @group Tasks - Operations about tasks
+ * @param {string} id.path.required - id of the Task to update
+ * @param {Task.model} task.body.required - the new task
+ * @returns {Task.model} 200 - An object of task info
+ * @returns {Error} 400 - Invalid updates
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
 router.patch('/tasks/:id', auth, async (req, res) => {
     const allowedUpdates = ['description', 'completed']
     const updates = Object.keys(req.body)
@@ -89,6 +151,17 @@ router.patch('/tasks/:id', auth, async (req, res) => {
     }
 })
 
+
+/**
+ * This function comment is parsed by doctrine
+ * @route DELETE /tasks/{id}
+ * @group Tasks - Operations about tasks
+ * @param {string} id.path.required - id of the Task to delete
+ * @returns {Task.model} 200 - An object of task info
+ * @returns {Error} 404 - Task not found
+ * @returns {Error}  default - Unexpected error
+ * @security JWT
+ */
 router.delete('/tasks/:id', auth, async (req, res) => {
     try {
         const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
