@@ -1,5 +1,5 @@
 # Task manager API using NodeJS
-Provides a REST API for managing tasks created by users. Users must be registered to create tasks.
+A RESTful API that uses a MongoDB nosql database to store and retrieves information about a user and a task linked to a user. JsonWebToken is used to create an authentication middleware to protect content.
 
 ## API Docs
 
@@ -8,13 +8,12 @@ Provides a REST API for managing tasks created by users. Users must be registere
 
 See full docs here
 
-
-### Plugins
+## Tools used
+- Node.JS
 - express
 - mongoose
 - jsonwebtoken
 - bcryptjs
-- mongoose
 - validator
 - multer
 
