@@ -1,0 +1,615 @@
+{
+  "info": {
+    "description": "This is a sample server",
+    "title": "Swagger",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/v1",
+  "produces": [
+    "application/json",
+    "application/xml"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "securityDefinitions": {
+    "JWT": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization",
+      "description": ""
+    }
+  },
+  "swagger": "2.0",
+  "paths": {
+    "/tasks": {
+      "post": {
+        "parameters": [
+          {
+            "name": "task",
+            "in": "body",
+            "description": "the new task",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
+        "description": "This function comment is parsed by doctrine",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "201": {
+            "description": "An object of task info",
+            "schema": {
+              "$ref": "#/definitions/TaskWithOwner"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "get": {
+        "parameters": [
+          {
+            "name": "completed",
+            "in": "query",
+            "description": "Filter tasks by completion status",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit number of tasks returned",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "Skip number of tasks for pagination",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sort tasks by field:order",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "description": "This function comment is parsed by doctrine",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of user info",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Task"
+              }
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/tasks/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the Task to get",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "This function comment is parsed by doctrine",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of task info",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the Task to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "task",
+            "in": "body",
+            "description": "the new task",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          }
+        ],
+        "description": "This function comment is parsed by doctrine",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of task info",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "400": {
+            "description": "Invalid updates"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the Task to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "This function comment is parsed by doctrine",
+        "tags": [
+          "Tasks"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of task info",
+            "schema": {
+              "$ref": "#/definitions/Task"
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "the new user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "201": {
+            "description": "An object of user info and token",
+            "schema": {
+              "$ref": "#/definitions/UserWithToken"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "parameters": [
+          {
+            "name": "email",
+            "in": "body",
+            "description": "email of the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "password of the user",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of user info and token",
+            "schema": {
+              "$ref": "#/definitions/UserWithToken"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "parameters": [],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success message"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/logoutAll": {
+      "post": {
+        "parameters": [],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success message"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/me": {
+      "get": {
+        "parameters": [],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of user info",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "patch": {
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "the new user info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of user info",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "400": {
+            "description": "Invalid updates"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "parameters": [],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An object of user info",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/me/avatar": {
+      "post": {
+        "parameters": [
+          {
+            "name": "avatar",
+            "in": "formData",
+            "description": "User avatar",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success message"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      },
+      "delete": {
+        "parameters": [],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success message"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        },
+        "security": [
+          {
+            "JWT": []
+          }
+        ]
+      }
+    },
+    "/users/{id}/avatar": {
+      "get": {
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id of the User to get the avatar",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "An image file"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Task": {
+      "required": [],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The description of the task"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "The completion status of the task"
+        }
+      }
+    },
+    "TaskWithOwner": {
+      "required": [],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The description of the task"
+        },
+        "completed": {
+          "type": "boolean",
+          "description": "The completion status of the task"
+        },
+        "owner": {
+          "type": "string",
+          "description": "The id of the owner of the task"
+        }
+      }
+    },
+    "User": {
+      "required": [
+        "name",
+        "email",
+        "password"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the user"
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user"
+        },
+        "age": {
+          "type": "number",
+          "description": "The age of the user"
+        },
+        "password": {
+          "type": "string",
+          "description": "The password of the user"
+        },
+        "tokens": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Token"
+          }
+        },
+        "avatar": {
+          "type": "string",
+          "description": "The avatar of the user"
+        }
+      }
+    },
+    "Token": {
+      "required": [
+        "token"
+      ],
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "The token"
+        }
+      }
+    },
+    "UserWithToken": {
+      "required": [],
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "token": {
+          "$ref": "#/definitions/Token"
+        }
+      }
+    }
+  },
+  "responses": {},
+  "parameters": {},
+  "tags": [
+    {
+      "name": "Tasks",
+      "description": "Operations about tasks"
+    },
+    {
+      "name": "Users",
+      "description": "Operations about users"
+    }
+  ]
+}
