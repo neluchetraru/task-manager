@@ -269,16 +269,19 @@
           {
             "name": "email",
             "in": "body",
-            "description": "email of the user",
+            "description": "user credentials",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "password",
-            "in": "body",
-            "description": "password of the user",
-            "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
         "description": "",
@@ -431,6 +434,9 @@
     },
     "/users/me/avatar": {
       "post": {
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "name": "avatar",
@@ -513,7 +519,10 @@
   },
   "definitions": {
     "Task": {
-      "required": [],
+      "required": [
+        "description",
+        "completed"
+      ],
       "properties": {
         "description": {
           "type": "string",
@@ -526,7 +535,11 @@
       }
     },
     "TaskWithOwner": {
-      "required": [],
+      "required": [
+        "description",
+        "owner",
+        "completed"
+      ],
       "properties": {
         "description": {
           "type": "string",
@@ -589,7 +602,10 @@
       }
     },
     "UserWithToken": {
-      "required": [],
+      "required": [
+        "#/definitions/User",
+        "#/definitions/Token"
+      ],
       "properties": {
         "user": {
           "$ref": "#/definitions/User"
