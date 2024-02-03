@@ -3,10 +3,10 @@ A RESTful API that uses a MongoDB nosql database to store and retrieves informat
 
 ## API Docs
 
+![part of api-docs](./public/api-docs.png)
 
 
-
-See full docs here
+See full docs [here](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/neluchetraru/task-manager/master/src/swagger.json)
 
 ## Tools used
 - Node.JS
